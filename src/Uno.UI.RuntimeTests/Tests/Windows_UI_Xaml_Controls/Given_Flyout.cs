@@ -44,12 +44,13 @@ namespace Uno.UI.RuntimeTests.Tests.Windows_UI_Xaml_Controls
 			var (flyout, content) = CreateFlyout();
 
 			const double MarginValue = 105;
+			const int TargetWidth = 88;
 			var target = new Border
 			{
 				Margin = new Thickness(MarginValue),
 				HorizontalAlignment = HorizontalAlignment.Left,
 				VerticalAlignment = VerticalAlignment.Top,
-				Width = 88,
+				Width = TargetWidth,
 				Height = 23,
 				Background = new SolidColorBrush(Colors.Red)
 			};
@@ -57,6 +58,8 @@ namespace Uno.UI.RuntimeTests.Tests.Windows_UI_Xaml_Controls
 			TestServices.WindowHelper.WindowContent = target;
 
 			await TestServices.WindowHelper.WaitForLoaded(target);
+
+			await TestServices.WindowHelper.WaitFor(() => target.ActualWidth == TargetWidth); // For some reason target is initially stretched on iOS
 
 			try
 			{
